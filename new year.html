@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Year Letter</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;}
+
+body{
+    margin:0;
+    height:100vh;
+    background:radial-gradient(circle at bottom,#0f172a,#020617);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    color:#f8fafc;
+}
+
+/* Envelope */
+.envelope{
+    width:280px;
+    height:180px;
+    background:#111827;
+    position:relative;
+    border-radius:8px;
+    cursor:pointer;
+    box-shadow:0 15px 40px rgba(0,0,0,.6);
+}
+.envelope::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    border-left:140px solid transparent;
+    border-right:140px solid transparent;
+    border-top:90px solid #1f2933;
+    transform-origin:top;
+    transition:transform 1.2s ease;
+}
+.envelope.open::before{
+    transform:rotateX(180deg);
+}
+
+/* Letter */
+.paper{
+    position:absolute;
+    width:92vw;
+    max-width:560px;
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(12px);
+    padding:40px;
+    border-radius:18px;
+    opacity:0;
+    transform:translateY(40px);
+    transition:all 1.5s ease;
+}
+.paper.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.dear{
+    font-family:'Great Vibes',cursive;
+    font-size:2.8em;
+    margin-bottom:20px;
+}
+
+.typing{
+    font-family:'Playfair Display',serif;
+    font-size:1.05em;
+    line-height:1.8;
+    white-space:pre-line;
+    overflow:hidden;
+    border-right:2px solid rgba(255,255,255,.6);
+}
+
+.from{
+    margin-top:35px;
+    text-align:right;
+    font-family:'Great Vibes',cursive;
+    font-size:2em;
+    opacity:0;
+}
+
+/* Fireworks */
+.firework{
+    position:absolute;
+    width:6px;
+    height:6px;
+    background:gold;
+    border-radius:50%;
+    animation:explode 1.5s ease-out infinite;
+}
+@keyframes explode{
+    0%{transform:scale(0);opacity:1;}
+    100%{transform:scale(18);opacity:0;}
+}
+</style>
+</head>
+<body>
+
+<div class="envelope" id="envelope"></div>
+
+<div class="paper" id="paper">
+    <div class="dear">Dear Ate Jasmine,</div>
+
+    <div class="typing" id="text">
+Ate New Year na naman. And before everything gets busy, gusto ko lang mag-iwan ng konting salita konti lang.
+
+Hindi ko ’alam kung saan ako mag sisimula pero meron  akong gustong sabihin, kundi dahil may mga taong worth appreciating kahit lowkey lang  eme but. Isa ka doon.
+
+Hindi palaging kailangan ng mahahabang usapan para maging okay ang connection. Minsan sapat na yung pagiging comfortable, yung alam mong safe ka maging ikaw, at yung walang pressure na kailangan patunayan.
+
+I appreciate you for being you. For showing up in your own way. For being someone na madaling kausap at madaling pakiramdaman, kahit hindi laging active sa bold lang tayo active e.
+
+Ngayong papasok ang bagong taon, sana maging maayos ang takbo ng mga araw mo. Sana mas maraming moments na magaan, mas kaunting dahilan para mapagod, at mas maraming dahilan para ngumiti.
+
+Kung dumating man yung time na magulo o mabigat, sana maalala mo na okay lang magpahinga. At sana, kahit minsan, maisip mo na may mga taong tahimik lang pero genuinely nagwi-wish ng mabuti para sa’yo.
+
+That’s all. No expectations. Just a simple wish for a kinder year ahead.at nandito lang ako palagi te pag may problema ichat mo lang ako wag mo kasi akong gawin tagahanap ng source pag may bold HAHAHHAHAHAA parang ayun nalang purpose ko e, ilove you so much ate Jasmine🫶🫶😘😘.
+
+Happy New Year.
+    </div>
+
+    <div class="from" id="from">
+        From Jaylord ✨
+    </div>
+</div>
+
+<audio id="sound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_70f63f8e6d.mp3"></audio>
+
+<script>
+const envelope=document.getElementById("envelope");
+const paper=document.getElementById("paper");
+const textEl=document.getElementById("text");
+const fromEl=document.getElementById("from");
+const sound=document.getElementById("sound");
+
+const fullText=textEl.innerText;
+textEl.innerText="";
+let i=0;
+function openLetter() {
+    envelope.classList.add("open");
+    paper.classList.add("show");
+    sound.play();
+
+    const typing = setInterval(() => {
+        textEl.innerText += fullText[i];
+        i++;
+        if (i >= fullText.length) {
+            clearInterval(typing);
+            sound.pause();
+            fromEl.style.opacity = 1;
+            launchFireworks();
+        }
+    }, 35);
+}
+
+// Support both desktop click and mobile tap
+envelope.addEventListener("click", openLetter);
+envelope.addEventListener("touchstart", openLetter);
+
+function launchFireworks(){
+    setInterval(()=>{
+        const fw=document.createElement("div");
+        fw.className="firework";
+        fw.style.left=Math.random()*100+"vw";
+        fw.style.top=Math.random()*100+"vh";
+        document.body.appendChild(fw);
+        setTimeout(()=>fw.remove(),1500);
+    },600);
+}
+</script>
+
+</body>
+</html>
